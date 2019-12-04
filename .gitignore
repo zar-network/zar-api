@@ -4,7 +4,3 @@ node_modules/
 /config/config.json
 
 # Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.config
-!.elasticbeanstalk/*.global.yml
