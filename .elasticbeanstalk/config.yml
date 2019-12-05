@@ -1,9 +1,9 @@
 branch-defaults:
   master:
-    environment: zar-pay-api
+    environment: xar-pay-api
     group_suffix: null
 global:
-  application_name: zar-pay-api
+  application_name: xar-pay-api
   branch: null
   default_ec2_keyname: null
   default_platform: node.js
