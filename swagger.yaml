@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
   description: |
-    Zar.cloud backend API
+    Xar Portal backend API
   version: "0.1.0"
-  title: API.ZAR.CLOUD
+  title: api.portal.xar.network
   contact:
-    email: anton.nell@zar.network
+    email: anton.nell@xar.network
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: 'https://api.zar.cloud/api/v1'
+  - url: 'https://api.portal.xar.network/api/v1'
 security:
   - BasicAuth: []
 paths:
@@ -18,7 +18,7 @@ paths:
     post:
       tags:
         - Authentication
-      summary: Log in to the zar.cloud network
+      summary: Log in to the xar.network portal
       operationId: login
       responses:
         '200':
@@ -39,7 +39,7 @@ paths:
     post:
       tags:
         - Authentication
-      summary: Register for a new zar.cloud account
+      summary: Register for a new xar.network portal account
       operationId: register
       responses:
         '200':
@@ -62,7 +62,7 @@ paths:
           BasicAuth: []
       tags:
       - Accounts
-      summary: Get Zar Network accounts
+      summary: Get xar.network portal accounts
       operationId: getAccounts
       responses:
         '200':
@@ -83,7 +83,7 @@ paths:
           BasicAuth: []
       tags:
       - Accounts
-      summary: Create a Zar Network accounts
+      summary: Create a xar.network portal accounts
       operationId: createAccount
       responses:
         '200':
@@ -106,7 +106,7 @@ paths:
           BasicAuth: []
       tags:
       - Assets
-      summary: Get all assets supported by zar.cloud
+      summary: Get all assets supported by xar.network portal
       operationId: getAssets
       responses:
         '200':
@@ -127,7 +127,7 @@ paths:
           BasicAuth: []
       tags:
       - Assets
-      summary: Issue a new asset on the Zar Network
+      summary: Issue a new asset on the xar.network portal
       operationId: issueAsset
       responses:
         '200':
@@ -150,7 +150,7 @@ paths:
           BasicAuth: []
       tags:
       - Assets
-      summary: Mint asset on the Zar Network
+      summary: Mint asset on the xar.network portal
       operationId: mintAsset
       responses:
         '200':
@@ -173,7 +173,7 @@ paths:
           BasicAuth: []
       tags:
       - Assets
-      summary: Burn asset on the Zar Network
+      summary: Burn asset on the xar.network portal
       operationId: burnAsset
       responses:
         '200':
@@ -196,7 +196,7 @@ paths:
           BasicAuth: []
       tags:
       - Assets
-      summary: Upload an image for an asset on Zar Network
+      summary: Upload an image for an asset on xar.network portal
       operationId: uploadAssetImage
       responses:
         '200':
@@ -240,7 +240,7 @@ paths:
           BasicAuth: []
       tags:
       - Banks
-      summary: Get Zar Network beneficiaries
+      summary: Get xar.network portal beneficiaries
       operationId: createBankAccount
       responses:
         '200':
@@ -305,7 +305,7 @@ paths:
           BasicAuth: []
       tags:
       - Beneficiaries
-      summary: Get Zar Network beneficiaries
+      summary: Get xar.network portal beneficiaries
       operationId: getBeneficiaries
       responses:
         '200':
@@ -326,7 +326,7 @@ paths:
           BasicAuth: []
       tags:
       - Beneficiaries
-      summary: Create a Zar Network beneficiary
+      summary: Create a xar.network portal beneficiary
       operationId: createBeneficiary
       responses:
         '200':
@@ -389,7 +389,7 @@ paths:
     post:
       tags:
         - Payments
-      summary: Make a payment to a zar account
+      summary: Make a payment to a xar.network portal account
       operationId: pay
       responses:
         '200':
@@ -446,7 +446,7 @@ paths:
     post:
       tags:
         - Payments
-      summary: Get the transactions created on the zar.cloud app
+      summary: Get the transactions created on the xar.network portal app
       operationId: getTransactions
       responses:
         '200':
@@ -463,7 +463,7 @@ paths:
     post:
       tags:
         - Users
-      summary: Request a reset of the password for your zar.cloud account
+      summary: Request a reset of the password for your xar.network portal account
       operationId: resetPassword
       responses:
         '200':
@@ -501,7 +501,7 @@ paths:
     post:
       tags:
         - Users
-      summary: Set a new password for your zar.cloud account
+      summary: Set a new password for your xar.network portal account
       operationId: setPassword
       responses:
         '200':
@@ -669,7 +669,7 @@ components:
           example: "Account Name"
         account_type:
           type: string
-          enum: ['ZAR']
+          enum: ['XAR']
     IssueAsset:
       type: object
       required:
@@ -689,7 +689,7 @@ components:
           example: 100000000
         minting_address:
           type: string
-          example: "zar123..."
+          example: "xar123..."
         mintable:
           type: boolean
         owner_burnable:
@@ -717,7 +717,7 @@ components:
           example: 123
         address:
           type: integer
-          example: "zar123..."
+          example: "xar123..."
         beneficiary_uuid:
           type: integer
           example: "xxxxxx-xxxxxx-xxxxxxxxx-xxxxxxx-xxxx"
@@ -774,7 +774,7 @@ components:
           example: "name@domain.com"
         account_address:
           type: string
-          example: "zar123..."
+          example: "xar123..."
     VerifyOTP:
       type: object
       required:
@@ -834,7 +834,7 @@ components:
           example: 'xxxxxx-xxxxxx-xxxxxxxxx-xxxxxxx-xxxx'
         to_address:
           type: string
-          example: "zar123..."
+          example: "xar123..."
     RequestDeposit:
       type: object
       required:
