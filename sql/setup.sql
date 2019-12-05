@@ -294,9 +294,9 @@ create table csdts(
 );
 
 create table csdt_transactions(
-	uuid char(36,
-	csdt_uuid char(36,
-	user_uuid char(36,
+	uuid char(36),
+	csdt_uuid char(36),
+	user_uuid char(36),
 	transaction_type varchar(32),
 	transaction_denom varchar(32),
 	transaction_amount  varchar(32),
@@ -325,7 +325,7 @@ create table savings_account_deposit_details(
 
 insert into banks (uuid, name, branch_code, created) values
 (md5(random()::text || clock_timestamp()::text)::uuid, 'ABSA', '632005', now()),
-(md5(random()::text || clock_timestamp()::text)::uuid, 'Capitec Bank', '470 010', now()),
+(md5(random()::text || clock_timestamp()::text)::uuid, 'Capitec Bank', '470010', now()),
 (md5(random()::text || clock_timestamp()::text)::uuid, 'First National Bank', '250655', now()),
 (md5(random()::text || clock_timestamp()::text)::uuid, 'Nedbank', '198765', now()),
 (md5(random()::text || clock_timestamp()::text)::uuid, 'Standard Bank', '051001', now());
