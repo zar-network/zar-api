@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: xar-pay-api-env-2
+    environment: xar-pay-api-env-1
     group_suffix: null
 global:
   application_name: xar-pay-api
