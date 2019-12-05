@@ -38,8 +38,13 @@ const accounts = {
     const {
       name,
       account_type,
-      address
+      address,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!name) {
       return 'name is required'
@@ -61,16 +66,16 @@ const accounts = {
 
     zarNetwork.createKey((err, account) => {
       if(err) {
+        console.log(err)
         res.status(500)
         res.body = { 'status': 500, 'success': false, 'result': err }
         return next(null, req, res, next)
       }
 
-      const encrKey = encryption.generateMnemonic()
-      const privateKeyObj = encryption.hashAccountField(account.privateKey, encrKey)
-      const mnemonicObj = encryption.hashAccountField(account.mnemonic, encrKey)
+      const privateKeyObj = encryption.hashAccountField(account.privateKey, data.password)
+      const mnemonicObj = encryption.hashAccountField(account.mnemonic, data.password)
 
-      accounts.insertAccount(token.user.uuid, data.name, account.address, privateKeyObj.phraseHashed, mnemonicObj.phraseHashed, null, encrKey, data.account_type, (err, createdAccount) => {
+      accounts.insertAccount(token.user.uuid, data.name, account.address, privateKeyObj.phraseHashed, mnemonicObj.phraseHashed, null, data.account_type, (err, createdAccount) => {
         if(err) {
           res.status(500)
           res.body = { 'status': 500, 'success': false, 'result': err }
@@ -84,9 +89,17 @@ const accounts = {
     })
   },
 
-  insertAccount(userUUID, name, address, privateKey, mnemonic, password, encrKey, accountType, callback) {
-    db.oneOrNone('insert into accounts (uuid, user_uuid, name, address, private_key, mnemonic, password, encr_key, account_type, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, $6, $7, $8, now()) returning uuid, name, address, account_type, created;',
-    [userUUID, name, address, privateKey, mnemonic, password, encrKey, accountType])
+  getUserDetails(user, callback) {
+    db.oneOrNone('select * from user_passwords where user_uuid = $1;', user.uuid)
+    .then((userDetails) => {
+      callback(null, userDetails)
+    })
+    .catch(callback)
+  },
+
+  insertAccount(userUUID, name, address, privateKey, mnemonic, password, accountType, callback) {
+    db.oneOrNone('insert into accounts (uuid, user_uuid, name, address, private_key, mnemonic, password, account_type, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, $6, $7, now()) returning uuid, name, address, account_type, created;',
+    [userUUID, name, address, privateKey, mnemonic, password, accountType])
     .then((account) => {
       callback(null, account)
     })

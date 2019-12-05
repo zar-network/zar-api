@@ -41,7 +41,8 @@ const zar = {
       const client = await this.getClient(privateKey)
       console.log(accountDetails.address, data.name, data.symbol, data.total_supply, !data.mintable, 18, '', data.owner_burnable, data.holder_burnable, data.from_burnable, !data.freezable)
 
-      const res = await client.issue(accountDetails.address, data.name, data.symbol, data.total_supply, !data.mintable)
+      const msg = client.Issue.issue(accountDetails.address, data.name, data.symbol, data.total_supply, !data.mintable)
+      const res = await client.sendTx(msg, accountDetails.address)
 
       console.log('***RESPONSE***')
       console.log(res)
@@ -60,7 +61,8 @@ const zar = {
       console.log(fromAddress, assetDetails.asset_id, data.amount, toAddress)
 
       const client = await this.getClient(privateKey)
-      const res = await client.mint(fromAddress, assetDetails.asset_id, data.amount, toAddress)
+      const msg = client.Issue.mint(fromAddress, assetDetails.asset_id, data.amount, toAddress)
+      const res = await client.sendTx(msg, fromAddress)
 
       console.log('***RESPONSE***')
       console.log(res)
@@ -133,7 +135,8 @@ const zar = {
       console.log(fromAddress, assetDetails.asset_id, data.amount, toAddress)
 
       const client = await this.getClient(privateKey)
-      const res = await client.burn(fromAddress, assetDetails.asset_id, data.amount, toAddress)
+      const msg = client.Issue.burn(fromAddress, assetDetails.asset_id, data.amount, toAddress)
+      const res = await client.sendTx(msg, fromAddress)
 
       console.log('***RESPONSE***')
       console.log(res)

@@ -47,7 +47,6 @@ order by created desc;`, [token.user.uuid])
 
       const token = encryption.decodeToken(req, res)
       payments.getUserDetails(token.user, (err, userDetails) => {
-        console.log(userDetails)
         if(err) {
           res.status(500)
           res.body = { 'status': 500, 'success': false, 'result': err }
@@ -61,7 +60,6 @@ order by created desc;`, [token.user.uuid])
         }
 
         payments.getAccount(data, (err, accountDetails) => {
-          console.log(accountDetails)
           if(err) {
             res.status(500)
             res.body = { 'status': 500, 'success': false, 'result': err }
@@ -73,7 +71,6 @@ order by created desc;`, [token.user.uuid])
             res.body = { 'status': 400, 'success': false, 'result': 'No matching account record found' }
             return next(null, req, res, next)
           }
-
 
           payments.getRecipientAddress(data, (err, recipientAddress) => {
             if(err) {
@@ -133,8 +130,13 @@ order by created desc;`, [token.user.uuid])
       to_address,
       amount,
       reference,
-      asset_id
+      asset_id,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!account_uuid) {
       return 'account_uuid is required'
@@ -213,7 +215,7 @@ order by created desc;`, [token.user.uuid])
 
   processPayment(data, accountDetails, payment, recipientAddress, callback) {
 
-    const privateKey = encryption.unhashAccountField(accountDetails.private_key, accountDetails.encr_key)
+    const privateKey = encryption.unhashAccountField(accountDetails.private_key, data.password)
 
     zarNetwork.transfer(data, recipientAddress, privateKey, accountDetails.address, (err, processResult) => {
       if(err) {

@@ -11,9 +11,7 @@ const accounts = require('./accounts.jsx')
 const savings = {
 
   deposit(req, res, next) {
-    console.log("HEELLLO")
     encryption.descryptPayload(req, res, next, (data) => {
-      console.log(data)
       const validation = savings.validateDeposit(data)
       if(validation !== true) {
         res.status(400)
@@ -24,7 +22,6 @@ const savings = {
       const token = encryption.decodeToken(req, res)
       savings.getSavingsAccountForUserAndAccount(token.user, data.account_uuid, (err, savingsAccount) => {
         if(err) {
-          console.log('there is an error here')
           res.status(500)
           res.body = { 'status': 500, 'success': false, 'result': err }
           return next(null, req, res, next)
@@ -33,7 +30,6 @@ const savings = {
         if(!savingsAccount) {
           savings.getStandardAccount(data.account_uuid, (err, acc) => {
             if(err) {
-              console.log('there is an error here 2')
               res.status(500)
               res.body = { 'status': 500, 'success': false, 'result': err }
               return next(null, req, res, next)
@@ -41,7 +37,6 @@ const savings = {
 
             accounts.insertAccount(token.user.uuid, 'Savings Account', acc.address, null, null, null, null, 'XAR_Savings', (err, createdAccount) => {
               if(err) {
-                console.log('there is an error here 3')
                 res.status(500)
                 res.body = { 'status': 500, 'success': false, 'result': err }
                 return next(null, req, res, next)
@@ -60,8 +55,13 @@ const savings = {
   validateDeposit(data) {
     const {
       amount,
-      account_uuid
+      account_uuid,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!amount) {
       return 'amount is required'
@@ -137,7 +137,7 @@ const savings = {
             return next(null, req, res, next)
           }
 
-          savings.processPayment(paymentData, sendingAccount, payment, recipientAccount, (err, paymentResult) => {
+          savings.processPayment(paymentData, sendingAccount, payment, recipientAccount, data.password, (err, paymentResult) => {
             if(err) {
               console.log(err)
               res.status(500)
@@ -169,9 +169,9 @@ const savings = {
     .catch(callback)
   },
 
-  processPayment(data, accountDetails, payment, recipientAddress, callback) {
+  processPayment(data, accountDetails, payment, recipientAddress, pass, callback) {
 
-    const privateKey = encryption.unhashAccountField(accountDetails.private_key, accountDetails.encr_key)
+    const privateKey = encryption.unhashAccountField(accountDetails.private_key, pass)
 
     zarNetwork.transfer(data, recipientAddress, privateKey, accountDetails.address, (err, processResult) => {
       if(err) {
@@ -278,8 +278,13 @@ const savings = {
   validateWithdraw(data) {
     const {
       amount,
-      account_uuid
+      account_uuid,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!amount) {
       return 'amount is required'

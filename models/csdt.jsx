@@ -32,7 +32,7 @@ const csdt = {
             return next(null, req, res, next)
           }
 
-          const privateKey = encryption.unhashAccountField(account.private_key, account.encr_key)
+          const privateKey = encryption.unhashAccountField(account.private_key, data.password)
 
           zarNetwork.createCSDT(privateKey, account.address, data.deposit_denom, data.deposit_amount, data.generated_amount, (err, result) => {
             if(err) {
@@ -74,8 +74,13 @@ const csdt = {
     const {
       deposit_denom,
       deposit_amount,
-      generated_amount
+      generated_amount,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!deposit_denom) {
       return 'deposit_denom is required'
@@ -180,6 +185,15 @@ const csdt = {
   },
 
   validateCloseCSDT(data) {
+
+    const {
+      password
+    } = data
+
+    if(!password) {
+      return 'password is required'
+    }
+
     return true
   },
 
@@ -208,7 +222,7 @@ const csdt = {
             return next(null, req, res, next)
           }
 
-          const privateKey = encryption.unhashAccountField(account.private_key, account.encr_key)
+          const privateKey = encryption.unhashAccountField(account.private_key, data.password)
           zarNetwork.depositCSDT(privateKey, account.address, data.deposit_denom, data.deposit_amount, async (err, result) => {
             if(err) {
               res.status(500)
@@ -244,8 +258,13 @@ const csdt = {
   validateDepositCSDT(data) {
     const {
       deposit_denom,
-      deposit_amount
+      deposit_amount,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!deposit_denom) {
       return 'deposit_denom is required'
@@ -287,7 +306,7 @@ const csdt = {
             return next(null, req, res, next)
           }
 
-          const privateKey = encryption.unhashAccountField(account.private_key, account.encr_key)
+          const privateKey = encryption.unhashAccountField(account.private_key, data.password)
           zarNetwork.withdrawCSDT(privateKey, account.address, data.withdraw_denom, data.withdraw_amount, async (err, result) => {
             if(err) {
               res.status(500)
@@ -322,8 +341,13 @@ const csdt = {
   validateWithdrawCSDT(data) {
     const {
       withdraw_denom,
-      withdraw_amount
+      withdraw_amount,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!withdraw_denom) {
       return 'withdraw_denom is required'
@@ -365,7 +389,7 @@ const csdt = {
             return next(null, req, res, next)
           }
 
-          const privateKey = encryption.unhashAccountField(account.private_key, account.encr_key)
+          const privateKey = encryption.unhashAccountField(account.private_key, data.password)
           zarNetwork.paybackCSDT(privateKey, account.address, data.payback_denom, data.payback_amount, async (err, result) => {
             if(err) {
               res.status(500)
@@ -400,8 +424,13 @@ const csdt = {
   validatePaybackCSDT(data) {
     const {
       payback_denom,
-      payback_amount
+      payback_amount,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!payback_denom) {
       return 'payback_denom is required'
@@ -443,7 +472,7 @@ const csdt = {
             return next(null, req, res, next)
           }
 
-          const privateKey = encryption.unhashAccountField(account.private_key, account.encr_key)
+          const privateKey = encryption.unhashAccountField(account.private_key, data.password)
           zarNetwork.generateCSDT(privateKey, account.address, data.generate_denom, data.generate_amount, async (err, result) => {
             if(err) {
               res.status(500)
@@ -478,8 +507,13 @@ const csdt = {
   validateGenerateCSDT(data) {
     const {
       generate_denom,
-      generate_amount
+      generate_amount,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!generate_denom) {
       return 'generate_denom is required'

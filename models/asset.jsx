@@ -100,7 +100,7 @@ const asset = {
             return next(null, req, res, next)
           }
 
-          const privateKey = encryption.unhashAccountField(accountDetails.private_key, accountDetails.encr_key)
+          const privateKey = encryption.unhashAccountField(accountDetails.private_key, data.password)
 
           zarNetwork.issue(data, accountDetails, privateKey, (err, issueResponse) => {
             if(err) {
@@ -200,8 +200,13 @@ const asset = {
       owner_burnable,
       holder_burnable,
       from_burnable,
-      freezable
+      freezable,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!symbol) {
       return 'symbol is required'
@@ -297,7 +302,7 @@ const asset = {
                 return next(null, req, res, next)
               }
 
-              const privateKey = encryption.unhashAccountField(accountDetails.private_key, accountDetails.encr_key)
+              const privateKey = encryption.unhashAccountField(accountDetails.private_key, data.password)
 
               zarNetwork.mint(data, assetDetails, privateKey, accountDetails.address, recipientAddress.address, (err, mintResponse) => {
                 if(err) {
@@ -385,8 +390,13 @@ const asset = {
       amount,
       address,
       beneficiary_uuid,
-      own_account_uuid
+      own_account_uuid,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!asset_uuid) {
       return 'asset_uuid is required'
@@ -524,7 +534,7 @@ const asset = {
                 return next(null, req, res, next)
               }
 
-              const privateKey = encryption.unhashAccountField(accountDetails.private_key, accountDetails.encr_key)
+              const privateKey = encryption.unhashAccountField(accountDetails.private_key, data.password)
 
               zarNetwork.burn(data, assetDetails, privateKey, accountDetails.address, recipientAddress.address, (err, burnResponse) => {
                 if(err) {
@@ -611,7 +621,12 @@ const asset = {
     const {
       asset_uuid,
       amount,
+      password
     } = data
+
+    if(!password) {
+      return 'password is required'
+    }
 
     if(!asset_uuid) {
       return 'asset_uuid is required'
