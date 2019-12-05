@@ -25,7 +25,6 @@
     "bip39": "^3.0.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
-    "core-util-is": "^1.0.2",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "generate-password": "^1.4.2",
@@ -36,8 +35,7 @@
     "otplib": "^11.0.1",
     "pg-promise": "^8.7.5",
     "randomstring": "^1.1.5",
-    "sha256": "^0.2.0",
-    "webpack-dev-server": "^3.9.0"
+    "sha256": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
